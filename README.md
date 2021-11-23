@@ -1,4 +1,4 @@
-自己做的小游戏（不喜勿喷）
+自己做的小游戏（个人爱好）
 
 ## 游戏一
 dome：https://blog.myfeiyou.com/home/game/hitbricks
