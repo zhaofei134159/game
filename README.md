@@ -5,6 +5,14 @@ dome：https://blog.myfeiyou.com/home/game/hitbricks
 
 ![benchmark](https://blog.myfeiyou.com/public/home/img/hitbricks.jpg)
 
+|      案件       | 功能          |
+| --------------- | ------------- |
+|      空格       | 发球          |
+|      左键       | 滑板向左移动  |
+|      右键       | 滑板向右移动  |
+
+小球掉落到滑板之下 就会结束游戏 
+
 使用的技术: html、css、js
 
 
