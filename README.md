@@ -1,6 +1,6 @@
 自己做的小游戏（个人爱好）
 
-## 游戏一
+## 游戏一 ( 打砖块 )
 dome：https://blog.myfeiyou.com/home/game/hitbricks
 
 ![benchmark](https://blog.myfeiyou.com/public/home/img/hitbricks.jpg)
