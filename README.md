@@ -5,7 +5,7 @@ dome：https://blog.myfeiyou.com/home/game/hitbricks
 
 ![benchmark](https://blog.myfeiyou.com/public/home/img/hitbricks.jpg)
 
-|      案件       | 功能          |
+|      按键       | 功能          |
 | --------------- | ------------- |
 |      空格       | 发球          |
 |      左键       | 滑板向左移动  |
