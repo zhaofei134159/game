@@ -15,6 +15,10 @@ dome：https://blog.myfeiyou.com/home/game/hitbricks
 
 使用的技术: html、css、js
 
+## 游戏二 ( 黄金矿工 )
+制作中
+
+使用的技术: html、css、js
 
 
 ## 免责声明
