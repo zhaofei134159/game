@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>黄金矿工</title>
+	<style type="text/css">
+		body{overflow:-Scroll;overflow-x:hidden;}
+		.outer{margin:0 auto;width:90%;height:700px;}
+		.upper{width:100%;height:100px;background:#FFCE31;}
+		.upperLeft{width:30%;height:100%;float:left;}
+		.upperCenter{width:40%;height:100%;float:left;text-align:center;line-height:194px;background:white;border-radius:100px;}
+		.upperCenter img{margin:0px 10px;width:85px;height:68px;}
+		.upperRight{width:30%;height:100%;float:left;}
+		.cennter{background-image:url('./pictures/brick.png');height:10px;}
+		.lower{width:100%;height:600px;background:#834805;}
+	</style>
+	<script src="./js/jquery-1.11.2.min.js"></script>
+</head>
+<body>
+	<div class="outer">
+		<div class="upper">
+			<div class="upperLeft"></div>
+			<div class="upperCenter">
+				<img src="./pictures/char1.jpg" alt="矿工" id="char1" data-str="1">
+				<img src="./pictures/char1.jpg" alt="矿工" id="char1" data-str="1">
+				<img src="./pictures/char1.jpg" alt="矿工" id="char1" data-str="1">
+			</div>
+			<div class="upperRight"></div>
+		</div>
+		<div class="cennter"></div>
+		<div class="lower"></div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			// 拉住物品后人物切换
+			qweqweq();
+		})
+
+		function qweqweq(){
+			var char1 = $('#char1');
+			ballInterval = setInterval(function(){
+				if(char1.attr('data-str') == 1){
+					char1.attr('src','./pictures/char2.jpg');
+					char1.attr('data-str','2');
+				}else{
+					char1.attr('src','./pictures/char1.jpg');
+					char1.attr('data-str','1');
+				}
+			},1000);
+		}
+	</script>
+</body>
+</html>
