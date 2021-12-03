@@ -22,7 +22,7 @@ dome: https://blog.myfeiyou.com/home/game/miner
 
 |      按键       | 功能          |
 | --------------- | ------------- |
-|      空格       | 爪钻石        |
+|      空格       | 抓钻石        |
 
 使用的技术: html、css、js
 
