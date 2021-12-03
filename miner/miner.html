@@ -14,7 +14,8 @@
 		.charDiv .chart{margin:0px 10px;width:85px;height:68px;position:absolute;}
 		.charDiv .hook_rope{position:absolute;left: 35px;bottom: -46px;z-index:1001;transform-origin:top left; animation: action 5s linear infinite;}
 		.charDiv .rope{position:absolute;width:2px;height:54px;background:#2F3B3F;z-index: 101;}
-		.charDiv .hookImg{position:absolute;width: 28px;height: 19px;bottom:-70px;left:-14px;}
+		.charDiv .hookImg{position:absolute;width: 35px;height: 24px;bottom:-73px;left:-17px;}
+		.charDiv #golds{position:absolute;width: 30px;height: 20px;bottom:-78px;left:-13px;}
 		@keyframes action {
 			0% {-webkit-transform: rotate(0deg);}
 			25% {-webkit-transform: rotate(65deg);}
@@ -39,6 +40,7 @@
 					<div class="hook_rope" data-type="1">
 						<div class="rope"></div>
 						<img src="./pictures/hook_mask.png" class="hookImg"  alt="">
+						<img src="./pictures/diamond.png" id="golds"  alt="" style="display:none;">
 					</div>
 				</div>
 			</div>
@@ -67,6 +69,7 @@
 		var hook_rope = $('.hook_rope');
 		var rope = $('.rope');
 		var hookImg = $('.hookImg');
+		var golds = $('#golds');
 		var lower = $('.lower');
 		var lowerWidth = parseInt(lower.css('width'));
 		var lowerHeight = parseInt(lower.css('height'));
@@ -78,6 +81,8 @@
 		var ropeElongationInterval = null;
 		// 绳子缩短 
 		var ropeShortenInterval = null;
+		// 物品被抓
+		var goldInterval = null;
 
 
 		// 动态生成底层物品
@@ -98,8 +103,8 @@
 					// 	var rows = 5;
 					// }else 
 					if(j==3){
-						var width = 40;
-						var height = 30;
+						var width = 30;
+						var height = 20;
 						var src = './pictures/diamond.png';
 						var rows = 10;
 					}
@@ -117,7 +122,7 @@
 							abeam = outerRight - abeam;
 						}
 
-						html += '<img src="'+src+'" class="gold" style="width: '+width+'px;height: '+height+'px;position: absolute;left: '+abeam+'px;top: '+vertical+'px;"/>';
+						html += '<img src="'+src+'" class="gold" data-i="'+i+'" style="width: '+width+'px;height: '+height+'px;position: absolute;left: '+abeam+'px;top: '+vertical+'px;"/>';
 					}
 				}
 			}
@@ -137,7 +142,7 @@
 		// 伸出爪子
 		function reachClaw(){
 			// 已经伸爪了 
-			if(hook_rope.attr('data-type') == '2' || ropeElongationInterval != null) {
+			if(hook_rope.attr('data-type') == '2' && ropeElongationInterval != null) {
 				return false;
 			}
 			var gold = $('.gold');
@@ -156,6 +161,10 @@
 				var hookBottom = parseInt(hookImg.css('bottom'));
 				var hookBottomNow = hookBottom - i;
 				hookImg.css('bottom', hookBottomNow+'px');
+
+				var goldsBottom = parseInt(golds.css('bottom'));
+				var goldsBottomNow = goldsBottom - i;
+				golds.css('bottom', goldsBottomNow+'px');
 
 				var hookImgTop = parseInt(hookImg.offset().top);
 				var hookImgBottom = parseInt(hookImg.offset().top) + parseInt(hookImg.css('height'));
@@ -178,12 +187,35 @@
 					var goldBottom = goldTop + parseInt(gold.eq(g).css('height'));
 					var goldRight = goldLeft + parseInt(gold.eq(g).css('width'));
 
+					// console.log('爪子顶部: '+hookImgTop);
+					// console.log('爪子左侧: '+hookImgLeft);
+					// console.log('爪子右侧: '+hookImgRight);
+					// console.log('爪子底部: '+hookImgBottom);
+					// console.log('钻石顶部: '+goldTop);
+					// console.log('钻石左侧: '+goldLeft);
+					// console.log('钻石右侧: '+goldRight);
+					// console.log('钻石底部: '+goldBottom);
+					// console.log('======================================');
+
 					// 判断是否抓住物品
-					if(goldBottom>=goldTop && hookImgLeft>=goldLeft && hookImgRight<=goldRight && hookImgBottom<=goldBottom){
+					if(hookImgBottom>goldTop && hookImgBottom<goldBottom && ((hookImgLeft<=goldLeft && hookImgRight>=goldRight) || (hookImgLeft>goldLeft && hookImgLeft<goldRight) || (hookImgRight>goldLeft && hookImgRight<goldRight))){
 						clearInterval(ropeElongationInterval);
 						ropeElongationInterval = null;
+
+						gold.eq(g).remove();
+						golds.show();
+
+						// 人物动画
+						grabInterval = setInterval("grabObject()",200);
+						// 绳子动画
+						ropeShortenInterval = setInterval("ropeShortenFun()",200);
+						// 物品动画
+						// goldInterval = setInterval("goldFun("+g+")",200);
+
+						break;
 					}
 				}
+
 
 			},30);
 		}
@@ -194,11 +226,24 @@
 
 			var ropeHeight = parseInt(rope.css('height'));
 			var ropeHeightNow = ropeHeight - i;
-			rope.css('height',ropeHeightNow+'px');
-
 			var hookBottom = parseInt(hookImg.css('bottom'));
 			var hookBottomNow = hookBottom + i;
+			var goldsBottom = parseInt(golds.css('bottom'));
+			var goldsBottomNow = goldsBottom + i;
+
+			if(ropeHeightNow <= 54){
+				ropeHeightNow = 54;
+			}
+			if(hookBottomNow >= -73){
+				hookBottomNow = -73;
+			}
+			if(goldsBottomNow >= -78){
+				goldsBottomNow = -78;
+			}
+			rope.css('height',ropeHeightNow+'px');
 			hookImg.css('bottom', hookBottomNow+'px');
+			golds.css('bottom', goldsBottomNow+'px');
+
 
 			var hookImgTop = parseInt(hookImg.offset().top);
 			var hookImgBottom = parseInt(hookImg.offset().top) + parseInt(hookImg.css('height'));
@@ -206,34 +251,67 @@
 			var hookImgRight = parseInt(hookImg.offset().left) + parseInt(hookImg.css('width'));
 
 			// 回到初始位置 继续动画
-			if(ropeHeightNow <= 54){
+			if(ropeHeightNow <= 54 && ropeElongationInterval == null){
+				// 绳子动画
 				clearInterval(ropeShortenInterval);
 				ropeShortenInterval = null;
 
 				// 启动动画
 				hook_rope.attr('data-type','1');
 				hook_rope.css('animation-play-state','running');
+				$('#golds').hide();
 			}
 		}
 
 		// 拉住物体
-		function grabObject(){
-			if(ballInterval!=null){
-				return false;
+		function grabObject(soc){
+			var chart = $('.chart');
+			if(chart.attr('data-str') == 1){
+				chart.attr('src','./pictures/char2.jpg');
+				$('.charDiv').css('bottom','68px');
+				chart.attr('data-str','2');
+			}else{
+				chart.attr('src','./pictures/char1.jpg');
+				$('.charDiv').css('bottom','68px');
+				chart.attr('data-str','1');
 			}
 
-			var chart = $('.chart');
-			grabInterval = setInterval(function(){
-				if(chart.attr('data-str') == 1){
-					chart.attr('src','./pictures/char2.jpg');
-					$('.charDiv').css('bottom','64px');
-					chart.attr('data-str','2');
-				}else{
-					chart.attr('src','./pictures/char1.jpg');
-					$('.charDiv').css('bottom','68px');
-					chart.attr('data-str','1');
-				}
-			},1000);
+			var ropeHeight = parseInt(rope.css('height'));
+			// 
+			if(ropeHeight <= 54 && ropeElongationInterval == null){
+				// 任务动画
+				clearInterval(grabInterval);
+				grabInterval = null;
+
+				$('.chart').attr('src','./pictures/char1.jpg');
+				$('.charDiv').css('bottom','68px');
+				$('.chart').attr('data-str','1');
+			}
+		}
+
+		// 物品被抓
+		function goldFun(g){
+			var i = 10;
+
+			var gold = $('.gold').eq(g);
+			var goldTop = parseInt(gold.css('top'));
+			var goldTop = goldTop - 6;
+
+			var goldLeft = parseInt(gold.css('left'));
+			var goldLeft = goldLeft - 8;
+
+			gold.css('top', goldTop+'px').css('left', goldLeft+'px');
+
+			var ropeHeight = parseInt(rope.css('height'));
+
+			// 回到初始位置 继续动画
+			if(ropeHeight <= 54 && ropeElongationInterval == null){
+				// 绳子动画
+				clearInterval(goldInterval);
+				goldInterval = null;
+
+				gold.remove();
+			}
 		}
 	</script>
 </body>
