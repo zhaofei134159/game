@@ -16,7 +16,13 @@ dome：https://blog.myfeiyou.com/home/game/hitbricks
 使用的技术: html、css、js
 
 ## 游戏二 ( 黄金矿工 )
-制作中
+dome: https://blog.myfeiyou.com/home/game/miner
+
+![benchmark](https://blog.myfeiyou.com/public/home/img/miner.jpg)
+
+|      按键       | 功能          |
+| --------------- | ------------- |
+|      空格       | 爪钻石        |
 
 使用的技术: html、css、js
 
